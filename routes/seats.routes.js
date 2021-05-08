@@ -5,13 +5,13 @@ const uuidv4 = require('uuid/v4');
 
 //returns the entire contents of the array
 router.route('/seats').get((req, res) => {
-  res.json(db.seats);
+  return res.json(db.seats);
 });
 
 //returns a random element from an array
 router.route('/seats/random').get((req, res) => {
   const randomRecord = db.seats[Math.floor(Math.random() * db.seats.length)];
-  res.json(randomRecord);
+  return res.json(randomRecord);
 });
 
 //returns only one element of the array, matching: id
@@ -20,34 +20,52 @@ router.route('/seats/:id').get((req, res) => {
 
   for (let record of db.seats) {
     if (record.id == id) {
-      res.json(record);
+      return res.json(record);
     }
   }
 });
 
 //add a new element to the array
 router.route('/seats').post((req, res) => {
-  const { author, text } = req.body;
+  const { day, seat, client, email } = req.body;
+  const availability = true;
 
-  const newRecord = { id: uuidv4(), author: author, text: text };
-  db.seats.push(newRecord);
+  for (let record of db.seats) {
+    if (record.day === day && record.seat === seat) {
+      res.status(405).json({ message: 'The slot is already taken...' });
+      availability = false;
+    }
+  }
 
-  res.json({ message: 'OK' });
+  if (availability === true) {
+    const newRecord = {
+      id: uuidv4(),
+      day: day,
+      seat: seat,
+      client: client,
+      email: email
+    };
+    db.seats.push(newRecord);
+
+    return res.json({ message: 'OK' });
+  }
 });
 
 //edit array element
 router.route('/seats/:id').put((req, res) => {
-  const { author, text } = req.body;
+  const { day, seat, client, email } = req.body;
   const id = req.params.id;
 
   for (let record of db.seats) {
     if (record.id == id) {
-      record.author = author;
-      record.text = text;
+      record.day = day;
+      record.seat = seat;
+      record.client = client;
+      record.email = email;
     }
   }
 
-  res.json({ message: 'OK' });
+  return res.json({ message: 'OK' });
 });
 
 //removes an element from the array, matching: id
@@ -56,11 +74,11 @@ router.route('/seats/:id').delete((req, res) => {
 
   for (let record of db.seats) {
     if (record.id == id) {
-      db.seats.splice(db.seats.indexOf(record));
+      db.seats.splice(db.seats.indexOf(record), 1);
     }
   }
 
-  res.json({ message: 'OK' });
+  return res.json({ message: 'OK' });
 });
 
 module.exports = router;
