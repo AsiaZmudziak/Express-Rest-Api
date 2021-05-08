@@ -2,7 +2,7 @@
   "name": "Express-Rest-Api",
   "version": "1.0.0",
   "main": "server.js",
-  "repository": "https://github.com/AsiaZmudziak/Express-Rest-Api.git",
+  "repository": "https://github.com/AsiaZmudziak/NewWaveFest-Express.git",
   "author": "<asiazmudziak@gmail.com>",
   "license": "MIT",
   "scripts": {
