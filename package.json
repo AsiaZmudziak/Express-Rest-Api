@@ -1,18 +1,18 @@
 {
-  "name": "Express-Rest-Api",
+  "name": "NewWaveFest-Express",
   "version": "1.0.0",
   "main": "server.js",
   "repository": "https://github.com/AsiaZmudziak/NewWaveFest-Express.git",
   "author": "<asiazmudziak@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "cd client && yarn install && yarn build"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "4.17.1",
     "nodemon": "^2.0.7",
     "uuid": "3.4.0"
-  },
-  "devDependencies": {}
+  }
 }
