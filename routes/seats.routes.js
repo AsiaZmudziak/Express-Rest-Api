@@ -46,6 +46,7 @@ router.route('/seats').post((req, res) => {
       email: email
     };
     db.seats.push(newRecord);
+    req.io.emit('seatsUpdated', db.seats);
 
     return res.json({ message: 'OK' });
   }
